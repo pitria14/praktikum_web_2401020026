@@ -22,7 +22,6 @@ Route::post('/form-mahasiswa', function (Request $request) {
 
         'nim' => trim((string) $request->input('nim')),
     ];
-
     $validator = Validator::make($dataBersih, [
         'nama' => ['required', 'min:3', 'max:50'],
         'email' => ['required', 'email'],
@@ -44,13 +43,11 @@ Route::post('/form-mahasiswa', function (Request $request) {
         'nim.required' => 'NIM wajib diisi.',
         'nim.digits_between' => 'NIM harus terdiri dari 8 sampai 12 digit.',
     ]);
-
     if ($validator->fails()) {
         return redirect('/form-mahasiswa')
             ->withErrors($validator)
             ->withInput();
     }
-
     $data = $validator->validated();
     $data['usia'] = (int) $data['usia'];
 
