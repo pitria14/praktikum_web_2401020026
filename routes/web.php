@@ -4,6 +4,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BukuController;
 
 // READ, PENCARIAN, DAN FILTER
 Route::get('/mahasiswa', function (Request $request) {
@@ -264,3 +265,6 @@ Route::delete('/mahasiswa/{id}', function (int $id) {
         );
     }
 })->name('mahasiswa.destroy');
+
+Route::get('/buku', [BukuController::class, 'index']);
+Route::get('/buku/{kode}', [BukuController::class, 'show']);
