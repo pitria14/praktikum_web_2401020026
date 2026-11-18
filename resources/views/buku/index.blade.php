@@ -72,6 +72,12 @@
 <div class="container">
     <h2>Daftar Buku</h2>
 
+    <p>Masuk sebagai {{ auth()->user()->name }}</p>
+    <form method="POST" action="{{ route('logout') }}">
+        @csrf
+        <button type="submit">Keluar</button>
+    </form>
+
     @if(session('success'))
         <p class="success">{{ session('success') }}</p>
     @endif
