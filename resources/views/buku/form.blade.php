@@ -1,10 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Form Buku</title>
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -49,9 +49,13 @@
 </head>
 <body>
 
+@php
+    $isEdit = request()->routeIs('buku.edit');
+@endphp
+
 <div class="container">
 
-    <h2>{{ isset($buku) ? 'Edit Buku' : 'Tambah Buku' }}</h2>
+    <h2>{{ $isEdit ? 'Edit Buku' : 'Tambah Buku' }}</h2>
 
     @if($errors->any())
         <div class="error">
@@ -63,45 +67,54 @@
         </div>
     @endif
 
-    <form action="{{ isset($buku) ? route('buku.update', $buku->id) : route('buku.store') }}"
-          method="POST">
-
+    <form
+        action="{{ $isEdit ? route('buku.update', $buku->id) : route('buku.store') }}"
+        method="POST"
+    >
         @csrf
 
-        @if(isset($buku))
+        @if($isEdit)
             @method('PUT')
         @endif
 
         <label>Kode Buku</label>
-        <input type="text" name="kode"
+        <input
+            type="text"
+            name="kode"
             value="{{ old('kode', $buku->kode ?? '') }}"
-            maxlength="10" required>
+            maxlength="10"
+            required
+        >
 
         <label>Judul Buku</label>
-        <input type="text" name="judul"
+        <input
+            type="text"
+            name="judul"
             value="{{ old('judul', $buku->judul ?? '') }}"
-            required>
+            required
+        >
 
         <label>Kategori</label>
         <select name="kategori_id" required>
             <option value="">-- Pilih Kategori --</option>
 
             @foreach($kategoris as $kategori)
-                <option value="{{ $kategori->id }}"
-                    {{ old('kategori_id', $buku->kategori_id ?? '') == $kategori->id ? 'selected' : '' }}>
+                <option
+                    value="{{ $kategori->id }}"
+                    {{ old('kategori_id', $buku->kategori_id ?? '') == $kategori->id ? 'selected' : '' }}
+                >
                     {{ $kategori->nama }}
                 </option>
             @endforeach
         </select>
 
         <button type="submit">
-            {{ isset($buku) ? 'Update Buku' : 'Simpan Buku' }}
+            {{ $isEdit ? 'Update Buku' : 'Simpan Buku' }}
         </button>
 
         <a href="{{ route('buku.index') }}" class="kembali">
             Kembali
         </a>
-
     </form>
 
 </div>
